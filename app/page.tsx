@@ -1,4 +1,5 @@
 import { supabase } from "./supabaseClient";
+import ListaRestaurantes from "./ListaRestaurantes";
 
 export default async function Home() {
   const { data: restaurantes, error } = await supabase
@@ -15,20 +16,7 @@ export default async function Home() {
         Restaurantes en Barranquilla
       </h1>
 
-      <ul className="flex flex-col gap-4">
-        {restaurantes?.map((r) => (
-          <li
-            key={r.id}
-            className="rounded-lg border border-zinc-200 p-4"
-          >
-            <h2 className="font-semibold">{r.nombre}</h2>
-
-            <p className="text-sm text-zinc-500">
-              {r.tipo_comida} · {r.zona} · {r.rango_precio}
-            </p>
-          </li>
-        ))}
-      </ul>
+      <ListaRestaurantes restaurantes={restaurantes ?? []} />
     </main>
   );
 }
