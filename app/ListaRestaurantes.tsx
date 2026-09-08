@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type Restaurante = {
   id: number;
@@ -20,17 +21,12 @@ export default function ListaRestaurantes({
 
   const tiposDeComida = [
     "Todos",
-    ...new Set(
-      restaurantes
-        .map((r) => r.tipo_comida)
-        .filter(Boolean)
-    ),
+    ...new Set(restaurantes.map((r) => r.tipo_comida).filter(Boolean)),
   ];
 
   const restaurantesFiltrados = restaurantes.filter((r) => {
     const coincideTipo =
-      tipoSeleccionado === "Todos" ||
-      r.tipo_comida === tipoSeleccionado;
+      tipoSeleccionado === "Todos" || r.tipo_comida === tipoSeleccionado;
 
     const texto = busqueda.toLowerCase();
 
@@ -69,15 +65,16 @@ export default function ListaRestaurantes({
 
       <ul className="flex flex-col gap-4">
         {restaurantesFiltrados.map((r) => (
-          <li
-            key={r.id}
-            className="rounded-lg border border-zinc-200 p-4"
-          >
-            <h2 className="font-semibold">{r.nombre}</h2>
-
-            <p className="text-sm text-zinc-500">
-              {r.tipo_comida} · {r.zona} · {r.rango_precio}
-            </p>
+          <li key={r.id}>
+            <Link
+              href={`/restaurantes/${r.id}`}
+              className="block rounded-lg border border-zinc-200 p-4 hover:border-emerald-500"
+            >
+              <h2 className="font-semibold">{r.nombre}</h2>
+              <p className="text-sm text-zinc-500">
+                {r.tipo_comida} · {r.zona} · {r.rango_precio}
+              </p>
+            </Link>
           </li>
         ))}
       </ul>
